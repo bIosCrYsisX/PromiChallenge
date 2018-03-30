@@ -45,13 +45,6 @@ public class MainController {
         }
     };
 
-    private Runnable runnableSetAnswers = new Runnable() {
-        @Override
-        public void run() {
-            setAnswers();
-        }
-    };
-
     public MainController(MainActivity mainActivity)
     {
         this.mainActivity = mainActivity;
@@ -124,7 +117,7 @@ public class MainController {
     public void nextImage()
     {
         mainModel.setElementNumber(random.nextInt(mainModel.getSources().size()));
-        handler.postDelayed(runnableSetAnswers, 500);
+        setAnswers();
         try {
             imageDownloader = new ImageDownloader();
             mainModel.setBitmap(imageDownloader.execute(mainModel.getLinks().get(mainModel.getElementNumber())).get());
