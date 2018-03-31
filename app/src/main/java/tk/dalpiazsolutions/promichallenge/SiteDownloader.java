@@ -19,7 +19,6 @@ public class SiteDownloader extends AsyncTask<String, Void, String> {
 
     private URL url;
     private HttpURLConnection connection;
-    private int data;
     private StringBuilder result = new StringBuilder();
     private String line;
 
