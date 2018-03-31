@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">PromiChallenge</string>
+    <string name="app_name">CelebrityChallenge</string>
     <string name="correct">Correct!</string>
     <string name="wrong">False: %1$s</string>
+    <string name="image">CelebrityImage</string>
 </resources>

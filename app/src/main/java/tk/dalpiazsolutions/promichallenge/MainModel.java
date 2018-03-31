@@ -1,7 +1,5 @@
 package tk.dalpiazsolutions.promichallenge;
 
-import android.graphics.Bitmap;
-
 import java.util.LinkedList;
 
 /**
@@ -17,7 +15,6 @@ public class MainModel {
     private LinkedList<String> names = new LinkedList<>();
     private int elementNumber;
     private int correctAnswer;
-    private Bitmap bitmap;
 
     public MainModel(MainActivity mainActivity)
     {
@@ -78,14 +75,6 @@ public class MainModel {
 
     public void setElementNumber(int elementNumber) {
         this.elementNumber = elementNumber;
-    }
-
-    public Bitmap getBitmap() {
-        return bitmap;
-    }
-
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
     }
 
     public int getCorrectAnswer() {

@@ -2,12 +2,8 @@ package tk.dalpiazsolutions.promichallenge;
 
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -25,16 +21,10 @@ public class MainController {
     private MainModel mainModel;
     private Pattern containerPattern;
     private Matcher matcher;
-    private ImageView imageView;
     private Random random = new Random();
     private String[] splitResult;
     private String result;
     private String cache;
-    private Button mbuttonAnswerOne;
-    private Button mbuttonAnswerTwo;
-    private Button mbuttonAnswerThree;
-    private Button mbuttonAnswerFour;
-    private LinkedList<Button> buttons = new LinkedList<>();
 
     private Handler handler = new Handler();
 
@@ -51,50 +41,6 @@ public class MainController {
         siteDownloader = new SiteDownloader();
         imageDownloader = new ImageDownloader();
         mainModel = new MainModel(mainActivity);
-        imageView = mainActivity.findViewById(R.id.imageProm);
-        mbuttonAnswerOne = mainActivity.findViewById(R.id.buttonAnswerOne);
-        mbuttonAnswerTwo = mainActivity.findViewById(R.id.buttonAnswerTwo);
-        mbuttonAnswerThree = mainActivity.findViewById(R.id.buttonAnswerThree);
-        mbuttonAnswerFour = mainActivity.findViewById(R.id.buttonAnswerFour);
-
-
-
-        mbuttonAnswerOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkAnswer(view.getTag().toString());
-                Log.i("answer", view.getTag().toString());
-            }
-        });
-
-        mbuttonAnswerTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkAnswer(view.getTag().toString());
-                Log.i("answer", view.getTag().toString());
-            }
-        });
-
-        mbuttonAnswerThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkAnswer(view.getTag().toString());
-                Log.i("answer", view.getTag().toString());
-            }
-        });
-
-        mbuttonAnswerFour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkAnswer(view.getTag().toString());
-                Log.i("answer", view.getTag().toString());
-            }
-        });
-
-        buttons.add(mbuttonAnswerOne);
-        buttons.add(mbuttonAnswerTwo);
-        buttons.add(mbuttonAnswerThree);
-        buttons.add(mbuttonAnswerFour);
     }
 
     public void downloadSite()
@@ -120,8 +66,7 @@ public class MainController {
         setAnswers();
         try {
             imageDownloader = new ImageDownloader();
-            mainModel.setBitmap(imageDownloader.execute(mainModel.getLinks().get(mainModel.getElementNumber())).get());
-            imageView.setImageBitmap(mainModel.getBitmap());
+            mainActivity.setImage(imageDownloader.execute(mainModel.getLinks().get(mainModel.getElementNumber())).get());
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -148,22 +93,19 @@ public class MainController {
 
     public void setAnswers()
     {
-        mainModel.setCorrectAnswer(random.nextInt(buttons.size()));
+        mainModel.setCorrectAnswer(random.nextInt(mainActivity.buttons.size()));
 
-        buttons.get(mainModel.getCorrectAnswer()).setText(mainModel.getNames().get(mainModel.getElementNumber()));
-        buttons.get(mainModel.getCorrectAnswer()).setTag(mainModel.getNames().get(mainModel.getElementNumber()));
+        mainActivity.setButtonTexts(mainModel.getCorrectAnswer(), mainModel.getNames().get(mainModel.getElementNumber()));
 
-        for(int i = 0; i < buttons.size(); i++)
+        for(int i = 0; i < mainActivity.buttons.size(); i++)
         {
             if(i != mainModel.getCorrectAnswer())
             {
                 while((cache = mainModel.getNames().get(random.nextInt(mainModel.getNames().size()))).equals(mainModel.getNames().get(mainModel.getElementNumber())));
 
-                buttons.get(i).setText(cache);
-                buttons.get(i).setTag(cache);
+                mainActivity.setButtonTexts(i, cache);
             }
         }
-
     }
 
     public void trimToLinkContainer()
